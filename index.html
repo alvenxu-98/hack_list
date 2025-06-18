@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>一院一策信息列表页</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f7f7f7; }
+    .list-container { padding-bottom: 70px; max-width: 500px; margin: 0 auto; }
+    .list-item {
+      background: #fff; margin: 12px 8px; border-radius: 8px; box-shadow: 0 1px 4px #eee;
+      padding: 16px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .item-info { flex: 1; }
+    .item-title { font-weight: bold; font-size: 16px; margin-bottom: 6px; }
+    .item-meta { color: #888; font-size: 14px; margin-bottom: 2px; }
+    .item-status { color: #409eff; font-size: 14px; }
+    .detail-btn {
+      background: #409eff; color: #fff; border: none; border-radius: 4px;
+      padding: 6px 12px; cursor: pointer; margin-left: 10px;
+    }
+    .footer {
+      position: fixed; left: 0; right: 0; bottom: 0; background: #fff;
+      border-top: 1px solid #eee; text-align: center; padding: 12px 0;
+    }
+    .create-btn {
+      background: #67c23a; color: #fff; border: none; border-radius: 20px;
+      padding: 10px 40px; font-size: 16px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="list-container" id="listContainer">
+    <!-- 列表项将由JS动态插入 -->
+  </div>
+  <div class="footer">
+    <button class="create-btn" onclick="onCreate()">新建</button>
+  </div>
+  <script>
+    // 模拟后端接口
+    async function fetchHospitalList() {
+      // 实际开发中请替换为真实接口
+      // return fetch('/api/hospitals').then(res => res.json());
+      return [
+        { id: 1, name: "魏丽 2025年KOL计划", startDate: "2025-01-01", endDate: "2025-12-31", status: "进行中" },
+        { id: 2, name: "阿医生2024年推广计划", startDate: "2024-11-18", endDate: "2024-12-31", status: "已完成" },
+        { id: 3, name: "李清 2025年KOL Plan", startDate: "2025-01-28", endDate: "2025-09-30", status: "未开始" }
+      ];
+    }
+
+    function renderList(list) {
+      const container = document.getElementById('listContainer');
+      container.innerHTML = '';
+      list.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'list-item';
+        div.innerHTML = `
+          <div class="item-info">
+            <div class="item-title">${item.name}</div>
+            <div class="item-meta">开始日期：${item.startDate}</div>
+            <div class="item-meta">结束日期：${item.endDate}</div>
+            <div class="item-status">状态：${item.status}</div>
+          </div>
+          <button class="detail-btn" onclick="onDetail(${item.id})">详情</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function onDetail(id) {
+      // 跳转到详情页，实际开发中请替换为真实路由
+      window.location.href = `/hospital-detail.html?id=${id}`;
+    }
+
+    function onCreate() {
+      // 跳转到新建页面
+      window.location.href = '/hospital-create.html';
+    }
+
+    // 初始化
+    fetchHospitalList().then(renderList);
+  </script>
+</body>
+</html>
